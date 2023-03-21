@@ -1,0 +1,43 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #E7E9EB;
+}
+
+.content {
+    overflow : auto;
+    padding: 50px;
+}
+
+.content h1 {
+    font-weight: bolder;
+    color:black;
+}
+
+.content .input-cell {
+    padding: 10px 20px 10px 20px;
+    background-color: #ced4da;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.content .output-cell-hoax {
+    padding: 10px 20px 10px 20px;
+    background-color: rgb(219, 59, 59);
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.content .output-cell-non-hoax {
+    padding: 10px 20px 10px 20px;
+    background-color: rgb(24, 134, 24);
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.content .output-cell-hoax .text, .content .output-cell-non-hoax .text {
+    text-transform: uppercase;
+    font-weight: bolder;
+}
