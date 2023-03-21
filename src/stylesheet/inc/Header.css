@@ -1,0 +1,44 @@
+/* Start Navbar Code */
+.navbar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+}
+
+.navbar a {
+    float: left;
+    text-align: center;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navbar .campus-logo {
+    width: 100px;
+    text-align: center;
+}
+
+.navbar .course-title {
+    font-size: 20px;
+    color: crimson;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.navbar .app-name {
+    color : #04AA6D;
+    text-align: right;
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 500px) {
+    .navbar a {
+        float: none;
+        display: block;
+    }
+    .navbar .app-name {
+        text-align: left;
+    }
+}
+/* End Navbar Code */
