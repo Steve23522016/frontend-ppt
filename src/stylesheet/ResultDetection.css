@@ -8,7 +8,7 @@ body {
 
 .content {
     overflow : auto;
-    padding: 50px;
+    padding: 20px 50px;
 }
 
 .content h1 {
