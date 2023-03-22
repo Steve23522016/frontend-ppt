@@ -5,9 +5,8 @@
     text-align: center;
     height: 50px;
     vertical-align: middle;
-    position:fixed;
-    left:0;
-    bottom:0;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .footer .title {

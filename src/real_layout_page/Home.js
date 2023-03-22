@@ -21,7 +21,7 @@ function Home() {
     }
 
     return (
-        <div>
+        <div className="wrapper">
             <Header />
             <div className="content">
                 <Form onSubmit={handleSubmit}>

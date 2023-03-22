@@ -20,7 +20,7 @@ function ResultDetection() {
     return (
         <div>
             <Header />
-            <div className="content">
+            <div className="content" style={{paddingTop: '20px'}}>
                 <h1>Hoax Detection Result</h1>
                 {
                     (labelResult) 
