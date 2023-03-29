@@ -7,6 +7,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 import Table from 'react-bootstrap/Table';
 import {DUMMY_LIST_ITEM_HISTORY, ENDPOINT_URL} from '../config/constants.js';
 
@@ -15,6 +17,8 @@ function HistoryDetection() {
     const [textDetectionType, setTextDetectionType] = useState(null)
     const [textResultType, setTextResultType] = useState(null)
     const [listItems, setListItems] = useState([]);
+    const [showToastDeleteSuccess, setShowToastDeleteSuccess] = useState(false);
+    const [showToastDeleteFailed, setShowToastDeleteFailed] = useState(false);
 
     const fetchDataBasedFilter = () => {
         let formData = new FormData()
@@ -40,12 +44,27 @@ function HistoryDetection() {
         return fetchData()
     }
 
+    const deleteData = (id) => {
+        const deleteFunc = async() => {
+            const data = await fetch(ENDPOINT_URL + '/delete_history/' + id, {
+                method: 'DELETE'
+            });
+            const realData = await data.json()
+            return realData
+        }
+        
+        return deleteFunc()
+    }
+
     useEffect(() => {
         fetchDataBasedFilter()
         .then(data => {
             setListItems(data.data)
         })
     }, [])
+
+    const toggleShowToastDeleteSuccess = () => setShowToastDeleteSuccess(!showToastDeleteSuccess);
+    const toggleShowToastDeleteFailed = () => setShowToastDeleteFailed(!showToastDeleteFailed);
 
     let handleFilter = (e) => {
         e.preventDefault()
@@ -55,10 +74,40 @@ function HistoryDetection() {
         })
     }
 
+    let deleteItem = (e, id) => {
+        e.preventDefault()
+        deleteData(id)
+        .then(data => {
+            if (data.status == 200) {
+                setListItems(listItems.filter(item => item.id != id))
+                toggleShowToastDeleteSuccess()
+            } else {
+                toggleShowToastDeleteFailed()
+            }
+        })
+        .catch(err => {
+            toggleShowToastDeleteFailed()
+        })
+    }
+
     return (
-        <div class="wrapper">
+        <div class="wrapper">            
             <Header />
             <div className="content" style={{padding:'20px'}}>
+                <ToastContainer className="p-3" style={{position:'relative'}} position="top-start">
+                    <Toast bg='primary' show={showToastDeleteSuccess} onClose={toggleShowToastDeleteSuccess}>
+                        <Toast.Header>
+                            <strong className="me-auto">Notification</strong>
+                        </Toast.Header>
+                        <Toast.Body>Success delete history detection item!</Toast.Body>
+                    </Toast>
+                    <Toast bg='danger' show={showToastDeleteFailed} onClose={toggleShowToastDeleteFailed}>
+                        <Toast.Header>
+                            <strong className="me-auto">Notification</strong>
+                        </Toast.Header>
+                        <Toast.Body>Failed delete history detection item!</Toast.Body>
+                    </Toast>
+                </ToastContainer>
                 <div className="filter">
                     <Container>
                         <Row>
@@ -114,6 +163,7 @@ function HistoryDetection() {
                                             <th>Detection Category</th>
                                             <th>Output Label</th>
                                             <th>Date</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -125,6 +175,11 @@ function HistoryDetection() {
                                                     <td>{item.process_category}</td>
                                                     <td>{item.output_label}</td>
                                                     <td>{item.date}</td>
+                                                    <td>
+                                                        <Button variant="danger" onClick={(e) => deleteItem(e, item.id)}>
+                                                            Delete
+                                                        </Button>
+                                                    </td>
                                                 </tr>
                                             )
                                         }
