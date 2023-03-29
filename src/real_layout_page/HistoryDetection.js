@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Table from 'react-bootstrap/Table';
-import {DUMMY_LIST_ITEM_HISTORY} from '../config/constants.js';
+import {DUMMY_LIST_ITEM_HISTORY, ENDPOINT_URL} from '../config/constants.js';
 
 function HistoryDetection() {
     const [textKeyword, setTextKeyword] = useState(null)
@@ -16,9 +16,44 @@ function HistoryDetection() {
     const [textResultType, setTextResultType] = useState(null)
     const [listItems, setListItems] = useState([]);
 
+    const fetchDataBasedFilter = () => {
+        let formData = new FormData()
+        if (textKeyword) {
+            formData.append('inputKeyword', textKeyword)
+        }
+        if (textDetectionType) {
+            formData.append('inputDetectionType', textDetectionType)
+        }
+        if (textResultType) {
+            formData.append('inputResultType', textResultType)
+        }
+        
+        const fetchData = async() => {
+            const data = await fetch(ENDPOINT_URL + '/history_label', {
+                method: 'POST',
+                body: formData
+            });
+            const realData = await data.json()
+            return realData
+        }
+        
+        return fetchData()
+    }
+
     useEffect(() => {
-        setListItems(DUMMY_LIST_ITEM_HISTORY)
+        fetchDataBasedFilter()
+        .then(data => {
+            setListItems(data.data)
+        })
     }, [])
+
+    let handleFilter = (e) => {
+        e.preventDefault()
+        fetchDataBasedFilter()
+        .then(data => {
+            setListItems(data.data)
+        })
+    }
 
     return (
         <div class="wrapper">
@@ -29,23 +64,23 @@ function HistoryDetection() {
                         <Row>
                             <Col md={4} xs={12}>
                                 <FloatingLabel controlId="floatingTextKeyword" label="Search by keyword" className="mb-3">
-                                    <Form.Control as="input" placeholder="Search by keyword" onChange={(e) => setTextKeyword(e.target.value)} />
+                                    <Form.Control as="input" placeholder="Search by keyword" defaultValue={textKeyword} onChange={(e) => setTextKeyword(e.target.value)} />
                                 </FloatingLabel>
                             </Col>
                             <Col md={4} xs={12}>
                                 <FloatingLabel controlId="floatingDetectionType" label="Filter by detection type" className="mb-3">
-                                    <Form.Select aria-label="Filter detection type" onChange={(e) => setTextDetectionType(e.target.value)}>
-                                        <option value={null} selected>--- Select Detection Type ---</option>
-                                        <option value="non-summarization">Non Summarization</option>
+                                    <Form.Select aria-label="Filter detection type" defaultValue={textDetectionType} onChange={(e) => setTextDetectionType(e.target.value)}>
+                                        <option value="">--- Select Detection Type ---</option>
+                                        <option value="not summarization">Non Summarization</option>
                                         <option value="summarization">Summarization</option>
                                     </Form.Select>
                                 </FloatingLabel>
                             </Col>
                             <Col md={4} xs={12}>
                                 <FloatingLabel controlId="floatingResultType" label="Filter by result type" className="mb-3">
-                                    <Form.Select aria-label="Filter result type" onChange={(e) => setTextResultType(e.target.value)}>
-                                        <option value={null} selected>--- Select Result Type ---</option>
-                                        <option value="non-hoax">Non Hoax</option>
+                                    <Form.Select aria-label="Filter result type" defaultValue={textResultType} onChange={(e) => setTextResultType(e.target.value)}>
+                                        <option value="">--- Select Result Type ---</option>
+                                        <option value="not hoax">Non Hoax</option>
                                         <option value="hoax">Hoax</option>
                                     </Form.Select>
                                 </FloatingLabel>
@@ -54,7 +89,7 @@ function HistoryDetection() {
                     </Container>
                     <Container>
                         <Col md={12} xs={12}>
-                            <Button variant="primary">
+                            <Button variant="primary" onClick={handleFilter}>
                                 Filter
                             </Button>
                             &nbsp;&nbsp;&nbsp;
