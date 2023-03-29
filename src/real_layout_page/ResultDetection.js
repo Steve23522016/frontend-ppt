@@ -3,17 +3,32 @@ import Header from './inc/Header.js';
 import Footer from './inc/Footer.js';
 import React, {useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom'
+import {ENDPOINT_URL} from '../config/constants.js';
 
 function ResultDetection() {
     const [labelResult, setLabelResult] = useState(null)
     let location = useLocation();
+    let isLabelSet = false;
 
     useEffect(() => {
-        if (location.state && location.state.inputText && location.state.inputType) {
-            let randomInt = Math.floor(Math.random() * 10) + 1
-            let labelResult = (randomInt < 5) ? 'hoax' : 'not hoax'
-            setLabelResult(labelResult);
+        if (!isLabelSet && location.state && location.state.inputText && location.state.inputType) {
+            let formData = new FormData()
+            formData.append('inputText', location.state.inputText)
+            formData.append('inputType', location.state.inputType)
+
+            const fetchData = async() => {
+                const data = await fetch(ENDPOINT_URL + '/calculate_label', {
+                    method: 'POST',
+                    body: formData
+                });
+                const realData = await data.json()
+                setLabelResult(realData.labelResult)
+            }
+            
+            isLabelSet = true;
+            fetchData()
+            .catch(console.error);
         }
     }, [])
 

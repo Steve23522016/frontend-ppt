@@ -105,3 +105,5 @@ export const DUMMY_LIST_ITEM_HISTORY = [
         'date': '2023-03-22'
     },
 ]
+
+export const ENDPOINT_URL = 'http://localhost:5000'

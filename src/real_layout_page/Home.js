@@ -9,7 +9,7 @@ import React, {useState, useEffect} from 'react';
 
 function Home() {
     const [inputText, setInputText] = useState(null);
-    const [inputType, setInputType] = useState('non-summarization');
+    const [inputType, setInputType] = useState('not summarization');
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -30,7 +30,7 @@ function Home() {
                     </FloatingLabel>
                     <FloatingLabel controlId="floatingDropdownArea" label="Choose hoax detection category type" className="mb-3">
                         <Form.Select aria-label="Choose model type here" onChange={(e) => setInputType(e.target.value)}>
-                            <option value="non-summarization" selected>Non Summarization Type</option>
+                            <option value="not summarization" selected>Non Summarization Type</option>
                             <option value="summarization">Summarization Type</option>
                         </Form.Select>
                     </FloatingLabel>
