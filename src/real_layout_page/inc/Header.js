@@ -1,5 +1,5 @@
 import '../../stylesheet/inc/Header.css';
-import ITBLogo from '../../image/itb-logo.png';
+import ITBLogoWithoutBackground from '../../image/itb-logo-without-background.png';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function Header() {
@@ -7,7 +7,7 @@ function Header() {
         <div class="navbar">
             <Container>
                 <Col md={4} xs={12}>
-                    <img src={ITBLogo} alt="ITB Logo" class="campus-logo" />
+                    <img src={ITBLogoWithoutBackground} alt="ITB Logo" class="campus-logo" />
                 </Col>
                 <Col md={4} xs={12}>
                     <Row>

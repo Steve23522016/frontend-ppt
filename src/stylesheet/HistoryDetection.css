@@ -9,3 +9,8 @@ body {
 .list-item {
     padding-top: 20px !important;
 }
+
+.restrict-column {
+    max-width: 100px;
+    word-wrap: break-word;
+}

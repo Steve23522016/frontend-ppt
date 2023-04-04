@@ -7,6 +7,7 @@ import { useLocation, Link } from 'react-router-dom'
 import {ENDPOINT_URL} from '../config/constants.js';
 
 function ResultDetection() {
+    const [summarizationResult, setSummarizationResult] = useState(null)
     const [labelResult, setLabelResult] = useState(null)
     let location = useLocation();
     let isLabelSet = false;
@@ -24,6 +25,7 @@ function ResultDetection() {
                 });
                 const realData = await data.json()
                 setLabelResult(realData.labelResult)
+                setSummarizationResult(realData.summarizationResult)
             }
             
             isLabelSet = true;
@@ -49,6 +51,15 @@ function ResultDetection() {
                                 <h4>Classifier Type</h4>
                                 <div className="text">{location.state.inputType}</div>
                             </div>
+                            {
+                                summarizationResult 
+                                ?
+                                    <div className="input-cell">
+                                        <h4>Summarization Result</h4>
+                                        <div className="text">{summarizationResult}</div>
+                                    </div>
+                                : false
+                            }
                             <div className={(labelResult == "hoax") ? "output-cell-hoax" : "output-cell-non-hoax"}>
                                 <span><h4>Label</h4></span>
                                 <div className="text">{labelResult}</div>

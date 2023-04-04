@@ -21,13 +21,13 @@
 
 .navbar .course-title {
     font-size: 20px;
-    color: crimson;
+    color: rgb(177, 185, 185);
     font-weight: bold;
     margin-bottom: 10px;
 }
 
 .navbar .app-name {
-    color : #04AA6D;
+    color : rgb(177, 185, 185);
     text-align: right;
     font-weight: bolder;
 }

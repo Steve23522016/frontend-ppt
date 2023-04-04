@@ -10,7 +10,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Table from 'react-bootstrap/Table';
-import {DUMMY_LIST_ITEM_HISTORY, ENDPOINT_URL} from '../config/constants.js';
+import {ENDPOINT_URL} from '../config/constants.js';
 
 function HistoryDetection() {
     const [textKeyword, setTextKeyword] = useState(null)
@@ -161,6 +161,7 @@ function HistoryDetection() {
                                             <th>ID</th>
                                             <th>Input Text/Paragraph</th>
                                             <th>Detection Category</th>
+                                            <th>Summarization Result</th>
                                             <th>Output Label</th>
                                             <th>Date</th>
                                             <th>Action</th>
@@ -171,10 +172,11 @@ function HistoryDetection() {
                                             listItems.map(item =>
                                                 <tr key={item.id}>
                                                     <td>{item.id}</td>
-                                                    <td style={{maxWidth: '100px'}}>{item.input_text}</td>
+                                                    <td className="restrict-column">{item.input_text}</td>
                                                     <td>{item.process_category}</td>
+                                                    <td className="restrict-column">{item.summarization_result ? item.summarization_result : 'None'}</td>
                                                     <td>{item.output_label}</td>
-                                                    <td>{item.date}</td>
+                                                    <td className="restrict-column">{item.date}</td>
                                                     <td>
                                                         <Button variant="danger" onClick={(e) => deleteItem(e, item.id)}>
                                                             Delete
